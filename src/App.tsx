@@ -1,8 +1,8 @@
-import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
-import { Router } from './routes/Router'
-import { defaultTheme } from './styles/themes/default'
-import { GlobalStyles } from './styles/themes/global'
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { Router } from './routes/Router';
+import { defaultTheme } from './styles/themes/default';
+import { GlobalStyles } from './styles/themes/global';
 
 export const App = () => {
   return (
@@ -12,7 +12,7 @@ export const App = () => {
       </BrowserRouter>
       <GlobalStyles />
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
