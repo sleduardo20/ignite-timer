@@ -83,7 +83,7 @@ export const Separator = styled.div`
   justify-content: center;
 `;
 
-export const StartButton = styled.button`
+const BaseCountDownButton = styled.button`
   width: 100%;
   border: none;
   padding: 1rem;
@@ -93,20 +93,31 @@ export const StartButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  color: ${({ theme }) => theme['gray-100']};
 
   font-weight: bold;
   cursor: pointer;
   transition: 0.1s all;
 
+  color: ${({ theme }) => theme['gray-100']};
+
+  :disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+`;
+
+export const StartButton = styled(BaseCountDownButton)`
   background: ${({ theme }) => theme['green-300']};
 
   :not(:disabled) :hover {
     background: ${({ theme }) => theme['green-700']};
   }
+`;
 
-  :disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+export const StopButton = styled(BaseCountDownButton)`
+  background: ${({ theme }) => theme['red-500']};
+
+  :not(:disabled) :hover {
+    background: ${({ theme }) => theme['red-700']};
   }
 `;
