@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer, useState } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import {
   addNewCycleAction,
   interrupedCurrentCycleAction,
@@ -29,10 +35,22 @@ interface ProviderProps {
 }
 
 export const CycleProvider = ({ children }: ProviderProps) => {
-  const [cyclesState, dispatch] = useReducer(cyclesReducer, {
-    cycles: [],
-    activeCycleId: null,
-  });
+  const [cyclesState, dispatch] = useReducer(
+    cyclesReducer,
+    {
+      cycles: [],
+      activeCycleId: null,
+    },
+    () => {
+      const storedStaeJSON = localStorage.getItem(
+        '@ignite-timer:cycles-state-1.0.0',
+      );
+
+      if (storedStaeJSON) {
+        return JSON.parse(storedStaeJSON);
+      }
+    },
+  );
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
 
@@ -40,8 +58,14 @@ export const CycleProvider = ({ children }: ProviderProps) => {
 
   const activeCycle = cycles.find(({ id }) => id === activeCycleId);
 
+  useEffect(() => {
+    const stateJSON = JSON.stringify(cyclesState);
+
+    localStorage.setItem('@ignite-timer:cycles-state-1.0.0', stateJSON);
+  }, [cyclesState]);
+
   const markCurrentCycleAsFinished = () => {
-    dispatch(markCurrentCycleAsFinishedAction);
+    dispatch(markCurrentCycleAsFinishedAction());
   };
 
   const setSecondsPassed = (seconds: number) => {
@@ -63,7 +87,7 @@ export const CycleProvider = ({ children }: ProviderProps) => {
   };
 
   const interrupedCycle = () => {
-    dispatch(interrupedCurrentCycleAction);
+    dispatch(interrupedCurrentCycleAction());
   };
 
   return (
